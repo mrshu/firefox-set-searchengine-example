@@ -1,0 +1,22 @@
+<html>
+<head>
+    <style type="text/css" media="all">
+      buttton {
+        margin: 0 auto;
+      }
+      body {
+        background-color: gray;
+      }
+    </style>
+    <script>
+      window.addEventListener('DOMContentLoaded', function(){
+        document.getElementById("install").addEventListener('click', function() {
+          addon.port.emit('install');
+        });
+      });
+    </script>
+  </head>
+  <body style="width: 200px; height: 100px;">
+    <button id="install">Install DuckDuckGo as your search engine!</button>
+  </body>
+</html>

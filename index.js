@@ -17,15 +17,40 @@
 "use strict";
 
 var self = require("sdk/self"),
+    panels = require("sdk/panel"),
     DDGSearchEngine = require('./lib/ddg-se.js');
 
-exports.main = function(options) {
-  DDGSearchEngine.init('DuckDuckGo for Sample Extension', 'sext');
+var { ToggleButton } = require('sdk/ui/button/toggle');
 
-  if (options.loadReason == 'install') {
+exports.main = function(options) {
+  DDGSearchEngine.init('DuckDuckGo for Sample Extension', 'se');
+
+
+  var panel = panels.Panel({
+    contentURL: self.data.url("html/panel.html")
+  });
+
+  panel.port.on('install', function(){
     DDGSearchEngine.install();
     DDGSearchEngine.makeDefault();
-  }
+  });
+
+  var button = ToggleButton({
+    id: "my-button",
+    label: "my button",
+    icon: {
+      "16": self.data.url("img/icon_16.png"),
+      "32": self.data.url("img/icon_32.png"),
+      "64": self.data.url("img/icon_64.png")
+    },
+    onChange: function (state) {
+      if (state.checked) {
+        panel.show({
+          position: button
+        });
+      }
+    }
+  });
 }
 
 exports.onUnload = function(options) {
